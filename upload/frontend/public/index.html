@@ -3,11 +3,14 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hey</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+    <title>Upload</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.4/socket.io.min.js"
+        integrity="sha512-Jq1JnVXlkYQOYQpz31qIV/0l67d97J9I6sbILtfiSYX00Isr2zK7XDRmHW8d2iBTwNZfL7sHkHGT0EzLs90jdw=="
+        crossorigin="anonymous"></script>
+
     <script src="./app.js"></script>
 </head>
 
@@ -15,18 +18,20 @@
     <div class="row">
         <div class="col-md-4">
             <h3>Uploading files using BusBoy</h3>
-            <form id="form" method="POST" enctype="multip/form-data"></form>
-            <div class="form-group"></div>
-            <label for="field">Files</label>
-            <input type="file" class="form-control" id="file" nmae="file" onchange="showSize()" multiple>
-            <output class="span" id="size">1GB</output>
-            <br>
-            <output class="span" id="msg">File Uploaded with Success!</output>
-        </div>
+            <form id="form" method="POST" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="field">Files</label>
+                    <input type="file" class="form-control" id="file" name="file" onchange="showSize()" multiple />
+                    <output class="span" id="size"></output>
+                    <br />
+                    <output class="span" id="msg"></output>
 
-        <div class="form-group">
-            <input type="submit" class="btn btn-success">
-            <input type="reset" class="btn btn-danger">
+                </div>
+                <div class="form-group">
+                    <input type="submit" class="btn btn-success" />
+                    <input type="reset" class="btn btn-danger" />
+                </div>
+            </form>
         </div>
     </div>
 </body>

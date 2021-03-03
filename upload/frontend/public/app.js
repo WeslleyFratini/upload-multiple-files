@@ -1,4 +1,6 @@
 let bytesAmount = 0;
+const API_URL = "http://localhost:3000";
+const ON_UPLOAD_EVENT = "file-uploaded";
 
 const formatBytes = (bytes, decimals = 2) => {
   if (bytes === 0) return "0 Bytes";
@@ -7,7 +9,8 @@ const formatBytes = (bytes, decimals = 2) => {
   const dm = decimals < 0 ? 0 : decimals;
   const sizes = ["Bytes", "KB", "MB", "GB", "TB", "PB"];
   const i = Math.floor(Math.log(bytes) / Math.log(k));
-  return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + "" + sizes[i];
+
+  return parseFloat((bytes / Math.pow(k, i)).toFixed(dm)) + " " + sizes[i];
 };
 
 const updateStatus = (size) => {
@@ -19,13 +22,12 @@ const showSize = () => {
   const { files: fileElements } = document.getElementById("file");
   if (!fileElements.length) return;
 
-  const file = Array.from(fileElements);
+  const files = Array.from(fileElements);
   const { size } = files.reduce(
     (prev, next) => ({ size: prev.size + next.size }),
-    {
-      size: 0,
-    }
+    { size: 0 }
   );
+
   bytesAmount = size;
   updateStatus(size);
 
@@ -36,10 +38,6 @@ const showSize = () => {
     updateStatus(bytesAmount);
     if (bytesAmount === 0) clearInterval(interval);
   }, 50);
-};
-
-const onload = () => {
-  console.log("loaded!");
 };
 
 window.onload = onload;
