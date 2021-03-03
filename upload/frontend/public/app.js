@@ -47,5 +47,13 @@ const onload = () => {
   });
 };
 
+ioClient.on(ON_UPLOAD_EVENT, (bytesReceived) => {
+  console.log("received", bytesReceived);
+  bytesAmount = bytesAmount - bytesReceived;
+  updateStatus(bytesAmount);
+});
+
+updateStatus(0);
+
 window.onload = onload;
 window.showSize = showSize;

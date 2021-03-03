@@ -1,13 +1,17 @@
 const http = require("http");
 const socketIo = require("socket.io");
-const API_URL = "http://localhost:3000";
+const Routes = require("./routes");
+const PORT = 3000;
 
 const PORT = 3000;
 
 const handler = function (request, response) {
   const defaultRoute = async (request, response) => response.end("Welcome");
 
-  return defaultRoute(request, response);
+  const routes = new Routes(io);
+  const chosen = routes[request.method.toLowerCase()] || defaultRoute;
+
+  return chosen.apply(routes, [request, response]);
 };
 
 const server = http.createServer();
