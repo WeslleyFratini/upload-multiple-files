@@ -8,7 +8,7 @@
     <title>Hey</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
-
+    <script src="./app.js"></script>
 </head>
 
 <body class="container-fluid">
@@ -18,7 +18,7 @@
             <form id="form" method="POST" enctype="multip/form-data"></form>
             <div class="form-group"></div>
             <label for="field">Files</label>
-            <input type="file" class="form-control" id="file" multiple>
+            <input type="file" class="form-control" id="file" nmae="file" onchange="showSize()" multiple>
             <output class="span" id="size">1GB</output>
             <br>
             <output class="span" id="msg">File Uploaded with Success!</output>
