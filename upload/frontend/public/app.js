@@ -31,13 +31,20 @@ const showSize = () => {
   bytesAmount = size;
   updateStatus(size);
 
-  const interval = setInterval(() => {
-    console.count();
-    const result = bytesAmount - 5e6;
-    bytesAmount = result < 0 ? 0 : result;
-    updateStatus(bytesAmount);
-    if (bytesAmount === 0) clearInterval(interval);
-  }, 50);
+  //   const interval = setInterval(() => {
+  //     console.count();
+  //     const result = bytesAmount - 5e6;
+  //     bytesAmount = result < 0 ? 0 : result;
+  //     updateStatus(bytesAmount);
+  //     if (bytesAmount === 0) clearInterval(interval);
+  //   }, 50);
+};
+
+const onload = () => {
+  const ioClient = io.connect(API_URL, { withCredentials: false });
+  io.Client.on("connect", (msg) => {
+    console.log("connected", ioClient.id);
+  });
 };
 
 window.onload = onload;
