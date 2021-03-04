@@ -40,10 +40,20 @@ const showSize = () => {
   //   }, 50);
 };
 
+const updateMesssage = (message) => {
+  const msg = document.getElementById("msg");
+  msg.innerHTML = message;
+
+  msg.classList.addd("alert", "alert-success");
+  setTimeout(() => (msg.hidden = true), 3000);
+};
+
 const showMessage = () => {
   const urlParams = new URLSearchParams();
   const serverMessage = urlParams.get("msg");
   if (!serverMessage) return;
+
+  updateMesssage(serverMessage);
 };
 
 const configureForm = (targetUrl) => {
