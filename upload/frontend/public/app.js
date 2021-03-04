@@ -40,6 +40,12 @@ const showSize = () => {
   //   }, 50);
 };
 
+const showMessage = () => {
+  const urlParams = new URLSearchParams();
+  const serverMessage = urlParams.get("msg");
+  if (!serverMessage) return;
+};
+
 const configureForm = (targetUrl) => {
   const form = document.getElementById("form");
   form.action = targetUrl;
@@ -50,6 +56,7 @@ const onload = () => {
   io.Client.on("connect", (msg) => {
     console.log("connected", ioClient.id);
     const targetUrl = API_URL + `?socketId=${ioClient.id}`;
+    configureForm(targetUrl);
   });
 };
 
