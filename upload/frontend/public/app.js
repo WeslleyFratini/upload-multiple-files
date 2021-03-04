@@ -40,10 +40,16 @@ const showSize = () => {
   //   }, 50);
 };
 
+const configureForm = (targetUrl) => {
+  const form = document.getElementById("form");
+  form.action = targetUrl;
+};
+
 const onload = () => {
   const ioClient = io.connect(API_URL, { withCredentials: false });
   io.Client.on("connect", (msg) => {
     console.log("connected", ioClient.id);
+    const targetUrl = API_URL + `?socketId=${ioClient.id}`;
   });
 };
 
