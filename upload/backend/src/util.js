@@ -1,3 +1,11 @@
+const { MongoRepository } = require("typeorm");
+
 const logger = require("pino")({
-  prettyPrint: {},
+  prettyPrint: {
+    ignore: "pid,hostname",
+  },
 });
+
+module.exports = {
+  logger,
+};
