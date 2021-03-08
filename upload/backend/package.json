@@ -10,6 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "pino": "^6.11.1",
+    "pino-pretty": "^4.7.1",
     "socket.io": "3.0"
   }
 }
