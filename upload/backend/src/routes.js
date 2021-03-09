@@ -1,4 +1,6 @@
 const url = require("url");
+const uploadHandler = require("./uploadHandler");
+const { pipelineAsync, logger } = require("./util");
 class Routes {
   #io;
   constructor(io) {
@@ -12,12 +14,9 @@ class Routes {
     } = url.parse(request.url, true);
     const redirectTo = headers.origin;
 
-    this.#io.to(socketId).emit("file-uploaded", 5e9);
-    this.#io.to(socketId).emit("file-uploaded", 5e9);
-    this.#io.to(socketId).emit("file-uploaded", 5e9);
-    this.#io.to(socketId).emit("file-uploaded", 5e9);
+    const uploadHandler = new UploadHandler(this.#io, socketId);
 
-    const onFinish = (response, redirectTo) => {
+    const onFinish = (response, redirectTo) => () => {
       response.writeHead(303, {
         Connection: "close",
         Location: `${redirectTo}?msg=Files uploaded with success!`,
@@ -25,9 +24,13 @@ class Routes {
 
       response.end();
     };
-    setTimeout(() => {
-      return onFinish(response, headers.origin);
-    }, 2000);
+    const busboyInstance = uploadHandler.registerEvents(
+      headers,
+      onFinish(response, redirectTo)
+    );
+
+    await pipelineAsync(request, busboyInstance);
+    logger.info("Request finished with sucess!");
   }
 }
 
