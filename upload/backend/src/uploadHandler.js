@@ -1,7 +1,9 @@
-const BusBoy = require("busboy");
+const Busboy = require("busboy");
 const { logger, pipelineAsync } = require("./util");
 const { join } = require("path");
 const { createWriteStream } = require("fs");
+const ON_UPLOAD_EVENT = "file-uploaded";
+
 class UploadHandler {
   #io;
   #socketId;
@@ -11,7 +13,7 @@ class UploadHandler {
   }
 
   registerEvents(headers, onFinish) {
-    const busboy = new BusBoy({ header });
+    const busboy = new Busboy({ headers });
 
     busboy.on("file", this.#onFile.bind(this));
 
@@ -24,24 +26,28 @@ class UploadHandler {
     async function* handleData(data) {
       for await (const item of data) {
         const size = item.length;
-        logger.inf(`File [${filename}] got ${size} bytes to ${this.#socketId}`);
+        // logger.info(`File [${filename}] got ${size} bytes to ${this.#socketId}`)
+        this.#io.to(this.#socketId).emit(ON_UPLOAD_EVENT, size);
+
         yield item;
       }
-
-      return handleData(this);
     }
+
+    return handleData.bind(this);
   }
 
   async #onFile(fieldname, file, filename) {
     const saveFileTo = join(__dirname, "../", "downloads", filename);
-    logger.info("Uploading" + saveFileTo);
+    logger.info("Uploading: " + saveFileTo);
 
     await pipelineAsync(
       file,
-      this.#handleFileBytes.aplly(this, [filename]),
+      this.#handleFileBytes.apply(this, [filename]),
       createWriteStream(saveFileTo)
     );
 
-    logger.info(`File [${filename}] finished `);
+    logger.info(`File [${filename}] finished!`);
   }
 }
+
+module.exports = UploadHandler;

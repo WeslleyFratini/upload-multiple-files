@@ -21,7 +21,7 @@ const io = socketIo(server, {
   },
 });
 
-io.on("connection", (socket) => logger.info("someone connected" + socket.id));
+io.on("connection", (socket) => logger.info("someone connected " + socket.id));
 
 // setInterval(() => {
 //     io.emit('file-uploaded', 5e6)
