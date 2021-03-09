@@ -7,6 +7,14 @@ class Routes {
     this.#io = io;
   }
 
+  options(request, response) {
+    response.writeHead(204, {
+      "Access-Control-Allow-Origin": "*",
+      "Access-Control-Allow-Methods": "OPTIONS, POST",
+    });
+    response.end();
+  }
+
   async post(request, response) {
     const { headers } = request;
     const {
